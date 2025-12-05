@@ -5,6 +5,7 @@ go 1.25.3
 require (
 	cloud.google.com/go/bigquery v1.72.0
 	github.com/pkg/errors v0.9.1
+	github.com/stretchr/testify v1.11.1
 	github.com/zeebo/errs/v2 v2.0.5
 	go.opentelemetry.io/collector/component v1.46.0
 	go.opentelemetry.io/collector/consumer v1.46.0
@@ -68,4 +69,5 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20250818200422-3122310a409c // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251103181224-f26f9409b101 // indirect
 	google.golang.org/grpc v1.76.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
