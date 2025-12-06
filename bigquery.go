@@ -89,7 +89,7 @@ func (t *TraceExporter) ConsumeTraces(ctx context.Context, td ptrace.Traces) err
 
 				var table = t.cfg.Table
 				if table == "" {
-					table = safeTableName(span.Name())
+					table = safeName(span.Name())
 				}
 				records[table] = append(records[t.cfg.Table], &r)
 			}
@@ -105,7 +105,7 @@ func (t *TraceExporter) ConsumeTraces(ctx context.Context, td ptrace.Traces) err
 
 var reduceUnderScore = regexp.MustCompile("_+")
 
-func safeTableName(name string) string {
+func safeName(name string) string {
 	safeName := strings.ToLower(name)
 	// keep only alphanumeric and underscores, replace others with underscore
 	safeName = strings.Map(func(r rune) rune {
@@ -126,18 +126,19 @@ var _ exporter.Traces = (*TraceExporter)(nil)
 
 func attributesToTags(attributes pcommon.Map, tags map[string]any) {
 	for k, v := range attributes.All() {
+		name := safeName(k)
 		switch v.Type() {
 		case pcommon.ValueTypeBool:
-			tags[k] = v.Bool()
+			tags[name] = v.Bool()
 		case pcommon.ValueTypeDouble:
-			tags[k] = v.Double()
+			tags[name] = v.Double()
 		case pcommon.ValueTypeInt:
-			tags[k] = v.Int()
+			tags[name] = v.Int()
 		case pcommon.ValueTypeStr:
-			tags[k] = v.Str()
+			tags[name] = v.Str()
 		case pcommon.ValueTypeEmpty:
 		case pcommon.ValueTypeBytes:
-			tags[k] = v.Bytes()
+			tags[name] = v.Bytes()
 		default:
 			// ignore all other
 		}
